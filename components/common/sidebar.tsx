@@ -2,22 +2,23 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Button from "@/components/common/button";
 
 const navItems = [
   { href: "/findings", icon: "work_outline", label: "Findings" },
-  { href: "/matches", icon: "analytics", label: "Matches" },
+  // { href: "/matches", icon: "analytics", label: "Matches" },
   { href: "/profile", icon: "person_outline", label: "Profile" },
-  { href: "/favorites", icon: "star_outline", label: "Favorites" },
-  { href: "/settings", icon: "settings", label: "Settings" },
+  // { href: "/favorites", icon: "star_outline", label: "Favorites" },
+  // { href: "/settings", icon: "settings", label: "Settings" },
 ];
 
 export default function Sidebar() {
   const pathname = usePathname();
 
-  const isActive = (href: string) => pathname === href;
+  const isActive = (href: string) => pathname.startsWith(href);
 
   return (
-    <aside className="h-screen w-64 fixed left-0 top-0 bg-surface-container-low border-r border-outline-variant flex flex-col py-stack-lg px-stack-md z-50">
+    <aside className="h-screen w-64 fixed left-0 top-0 bg-surface-container-low border-r border-outline-variant flex flex-col py-stack-lg px-stack-md z-50 px-4 py-8">
       <div className="mb-stack-lg">
         <h1 className="font-headline-md text-headline-md font-bold text-on-surface tracking-tight">
           CareerArch
@@ -45,11 +46,11 @@ export default function Sidebar() {
       </nav>
 
       <div className="mt-auto space-y-4 pt-stack-md border-t border-outline-variant/30">
-        <button className="w-full bg-primary text-on-primary py-2.5 rounded-xl font-label-md text-label-md font-semibold hover:opacity-90 transition-all active:scale-95">
+        <Button variant="contained" color="primary" className="mb-4" fullWidth>
           Upgrade Plan
-        </button>
+        </Button>
 
-        <div className="space-y-1">
+        <div className="space-y-1 mt-4">
           <Link
             href="/help"
             className="flex items-center gap-3 py-2 px-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-colors"

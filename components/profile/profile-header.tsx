@@ -1,4 +1,6 @@
 import Tag from "@/components/common/tag";
+import Button from "@/components/common/button";
+import IconButton from "@mui/material/IconButton";
 
 type Props = {
   name: string;
@@ -23,9 +25,20 @@ export default function ProfileHeader({
             src={avatar}
           />
         </div>
-        <button className="absolute bottom-1 right-1 bg-primary text-on-primary p-2 rounded-full shadow-lg active:scale-95 transition-transform">
+        <IconButton
+          size="small"
+          sx={{
+            position: "absolute",
+            bottom: 4,
+            right: 4,
+            bgcolor: "primary.main",
+            color: "primary.contrastText",
+            "&:hover": { bgcolor: "primary.dark" },
+            boxShadow: 3,
+          }}
+        >
           <span className="material-symbols-outlined text-[18px]">edit</span>
-        </button>
+        </IconButton>
       </div>
 
       <div className="text-center md:text-left flex-1">
@@ -47,12 +60,12 @@ export default function ProfileHeader({
       </div>
 
       <div className="flex gap-stack-md">
-        <button className="px-stack-lg py-3 border border-outline-variant rounded-xl font-label-md text-label-md hover:bg-surface-container-high transition-colors">
+        <Button variant="outlined" color="inherit">
           Public View
-        </button>
-        <button className="px-stack-lg py-3 bg-primary text-on-primary rounded-xl font-label-md text-label-md hover:opacity-90 transition-opacity">
+        </Button>
+        <Button variant="contained" color="primary">
           Save Profile
-        </button>
+        </Button>
       </div>
     </section>
   );

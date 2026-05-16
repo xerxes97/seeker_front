@@ -1,5 +1,7 @@
 "use client";
 
+import IconButton from "@mui/material/IconButton";
+
 type Variant = "default" | "primary" | "secondary" | "error" | "success";
 
 type Props = {
@@ -46,12 +48,19 @@ export default function Tag({
       )}
       {children}
       {removable && (
-        <button
+        <IconButton
           onClick={onRemove}
-          className="ml-0.5 hover:opacity-70 transition-opacity"
+          size="small"
+          sx={{
+            ml: "2px",
+            p: "2px",
+            minWidth: "auto",
+            color: "inherit",
+            "&:hover": { opacity: 0.7 },
+          }}
         >
           <span className="material-symbols-outlined text-[14px]">close</span>
-        </button>
+        </IconButton>
       )}
     </span>
   );

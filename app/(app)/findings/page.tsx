@@ -1,5 +1,3 @@
-import Sidebar from "@/components/common/sidebar";
-import TopAppBar from "@/components/common/top-app-bar";
 import MatchScore from "@/components/common/match-score";
 import FilterPills from "@/components/common/filter-pills";
 import JobCard from "@/components/opportunities/job-card";
@@ -70,10 +68,8 @@ const filterItems = [
 
 export default function FindingsPage() {
   return (
-    <>
-      <Sidebar />
-      <TopAppBar />
-      <main className="ml-64 mt-16 p-margin-desktop min-h-screen">
+    <div className="p-margin-desktop min-h-screen p-6">
+      {/* <Search /> */}
         <section className="mb-stack-lg">
           <div className="flex items-end justify-between mb-stack-md">
             <div>
@@ -112,10 +108,10 @@ export default function FindingsPage() {
             </div>
           </div>
 
-          <FilterPills items={filterItems} active="All Tracks" />
+          {/* <FilterPills items={filterItems} active="All Tracks" /> */}
         </section>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
           {jobs.map((job) => (
             <JobCard key={job.id} job={job} />
           ))}
@@ -196,7 +192,23 @@ export default function FindingsPage() {
             </div>
           </div>
         </div>
-      </main>
-    </>
+    </div>
   );
 }
+
+const Search = () => {
+  return (
+    <div className="flex items-center gap-stack-md flex-1">
+      <div className="relative w-full max-w-md group">
+        <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">
+          search
+        </span>
+        <input
+          className="w-full bg-surface-container-lowest border border-outline-variant rounded-full py-2 pl-10 pr-4 font-body-sm text-body-sm focus:outline-none focus:ring-1 focus:ring-primary transition-all"
+          placeholder="Search opportunities..."
+          type="text"
+        />
+      </div>
+    </div>
+  );
+};

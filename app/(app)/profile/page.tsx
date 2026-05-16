@@ -1,5 +1,3 @@
-import Sidebar from "@/components/common/sidebar";
-import TopAppBar from "@/components/common/top-app-bar";
 import ProfileHeader from "@/components/profile/profile-header";
 import SkillChip from "@/components/profile/skill-chip";
 import SectionCard from "@/components/common/section-card";
@@ -8,10 +6,7 @@ import IconButton from "@mui/material/IconButton";
 
 export default function ProfilePage() {
   return (
-    <>
-      <Sidebar />
-      <TopAppBar />
-      <main className="ml-64 mt-16 p-margin-desktop min-h-screen">
+    <div className="p-margin-desktop min-h-screen">
         <div className="max-w-container-max mx-auto">
           <ProfileHeader
             name="Elias P. Henderson"
@@ -219,7 +214,6 @@ export default function ProfilePage() {
             </SectionCard>
           </div>
         </div>
-      </main>
-    </>
+    </div>
   );
 }
