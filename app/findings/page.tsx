@@ -1,9 +1,10 @@
-import Sidebar from "@/components/sidebar";
-import TopAppBar from "@/components/top-app-bar";
-import MatchScore from "@/components/match-score";
-import FilterPills from "@/components/filter-pills";
-import JobCard from "@/components/job-card";
-import type { Job } from "@/components/job-card";
+import Sidebar from "@/components/common/sidebar";
+import TopAppBar from "@/components/common/top-app-bar";
+import MatchScore from "@/components/common/match-score";
+import FilterPills from "@/components/common/filter-pills";
+import JobCard from "@/components/opportunities/job-card";
+import Button from "@/components/common/button";
+import type { Job } from "@/components/opportunities/job-card";
 
 const jobs: Job[] = [
   {
@@ -84,18 +85,30 @@ export default function FindingsPage() {
               </p>
             </div>
             <div className="flex items-center gap-stack-sm">
-              <button className="flex items-center gap-2 px-4 py-2 bg-surface-container-high rounded-lg border border-outline-variant font-label-md text-label-md text-on-surface hover:bg-surface-container-highest transition-colors active:scale-[0.98]">
-                <span className="material-symbols-outlined text-[18px]">
-                  tune
-                </span>
+              <Button
+                variant="outlined"
+                color="inherit"
+                size="small"
+                startIcon={
+                  <span className="material-symbols-outlined text-[18px]">
+                    tune
+                  </span>
+                }
+              >
                 Filtros
-              </button>
-              <button className="flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-lg border border-primary/20 font-label-md text-label-md hover:bg-primary/20 transition-colors active:scale-[0.98]">
-                <span className="material-symbols-outlined text-[18px]">
-                  sort
-                </span>
+              </Button>
+              <Button
+                variant="outlined"
+                color="primary"
+                size="small"
+                startIcon={
+                  <span className="material-symbols-outlined text-[18px]">
+                    sort
+                  </span>
+                }
+              >
                 Relevancia
-              </button>
+              </Button>
             </div>
           </div>
 
@@ -176,9 +189,9 @@ export default function FindingsPage() {
                     </span>
                   ))}
                 </div>
-                <button className="bg-on-surface text-surface py-2.5 px-6 rounded-xl font-label-md text-label-md font-bold hover:bg-primary hover:text-on-primary transition-all active:scale-[0.98] cursor-pointer">
+                <Button variant="contained" color="primary" size="large">
                   Quick Apply
-                </button>
+                </Button>
               </div>
             </div>
           </div>

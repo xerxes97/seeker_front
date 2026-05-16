@@ -1,8 +1,10 @@
-import Sidebar from "@/components/sidebar";
-import TopAppBar from "@/components/top-app-bar";
-import ProfileHeader from "@/components/profile-header";
-import SkillChip from "@/components/skill-chip";
-import SectionCard from "@/components/section-card";
+import Sidebar from "@/components/common/sidebar";
+import TopAppBar from "@/components/common/top-app-bar";
+import ProfileHeader from "@/components/profile/profile-header";
+import SkillChip from "@/components/profile/skill-chip";
+import SectionCard from "@/components/common/section-card";
+import Button from "@/components/common/button";
+import IconButton from "@mui/material/IconButton";
 
 export default function ProfilePage() {
   return (
@@ -44,11 +46,11 @@ export default function ProfilePage() {
                 <span className="font-label-md text-label-md">
                   Henderson_CV_2024.pdf
                 </span>
-                <button className="text-error hover:opacity-70 transition-opacity cursor-pointer">
+                <IconButton size="small" sx={{ color: "var(--color-error, #ffb4ab)" }}>
                   <span className="material-symbols-outlined text-[18px]">
                     close
                   </span>
-                </button>
+                </IconButton>
               </div>
             </SectionCard>
 
@@ -165,12 +167,18 @@ export default function ProfilePage() {
                 <h3 className="font-label-md text-label-md uppercase tracking-widest text-on-surface-variant">
                   Verified Skills
                 </h3>
-                <button className="text-primary hover:underline font-label-md text-label-md flex items-center gap-1 transition-opacity cursor-pointer">
-                  <span className="material-symbols-outlined text-[16px]">
-                    add
-                  </span>
+                <Button
+                  variant="text"
+                  color="primary"
+                  size="small"
+                  startIcon={
+                    <span className="material-symbols-outlined text-[16px]">
+                      add
+                    </span>
+                  }
+                >
                   Add Skill
-                </button>
+                </Button>
               </div>
 
               <div className="flex flex-wrap gap-stack-sm">
@@ -198,9 +206,14 @@ export default function ProfilePage() {
                 </span>
                 <p className="font-body-sm text-body-sm text-on-surface-variant">
                   We&apos;ve identified 3 additional skills from your CV.{" "}
-                  <button className="text-primary font-medium hover:underline transition-opacity cursor-pointer">
+                  <Button
+                    variant="text"
+                    color="primary"
+                    size="small"
+                    sx={{ p: 0, minWidth: "auto", verticalAlign: "baseline", fontSize: "inherit", fontWeight: 500 }}
+                  >
                     Add them to your profile.
-                  </button>
+                  </Button>
                 </p>
               </div>
             </SectionCard>

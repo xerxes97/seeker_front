@@ -1,4 +1,4 @@
-import Tag from "./tag";
+import Tag from "@/components/common/tag";
 
 type Props = {
   name: string;

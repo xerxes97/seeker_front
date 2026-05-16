@@ -1,8 +1,3 @@
-"use server";
-
-import { cookies } from "@/lib/cookies";
-import { api } from "@/lib/fetcher";
-
 export type LoginState = {
   error?: string;
   success?: boolean;
@@ -22,7 +17,7 @@ export async function login(
 
   const fieldErrors: LoginState["fieldErrors"] = {};
 
-  if (!email || !email.includes("@")) {
+  if (!email?.includes("@")) {
     fieldErrors.email = "Ingresa un email válido";
   }
   if (!password || password.length < 6) {
@@ -34,21 +29,19 @@ export async function login(
   }
 
   try {
-    const res = await api.post<
-      { email: string; password: string },
-      { token: string; user: { name: string; email: string } }
-    >("/auth/login", { email, password });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password, remember }),
+        credentials: "include",
+      }
+    );
 
     if (!res.ok) {
       return { error: "Credenciales inválidas. Intenta de nuevo." };
     }
-
-    await cookies.set("auth_token", res.data.token, {
-      path: "/",
-      secure: true,
-      sameSite: "lax",
-      expires: remember ? 30 * 24 * 60 * 60 * 1000 : undefined,
-    });
 
     return { success: true };
   } catch {
@@ -57,5 +50,8 @@ export async function login(
 }
 
 export async function logout(): Promise<void> {
-  await cookies.remove("auth_token");
+  await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
+    method: "POST",
+    credentials: "include",
+  });
 }

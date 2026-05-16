@@ -1,8 +1,10 @@
-import Sidebar from "@/components/sidebar";
-import TopAppBar from "@/components/top-app-bar";
-import MatchScore from "@/components/match-score";
-import Tag from "@/components/tag";
-import SectionCard from "@/components/section-card";
+import Sidebar from "@/components/common/sidebar";
+import TopAppBar from "@/components/common/top-app-bar";
+import MatchScore from "@/components/common/match-score";
+import Tag from "@/components/common/tag";
+import SectionCard from "@/components/common/section-card";
+import Button from "@/components/common/button";
+import TextField from "@mui/material/TextField";
 
 export default function OpportunityDetailPage() {
   return (
@@ -252,39 +254,45 @@ export default function OpportunityDetailPage() {
                   {
                     icon: "send",
                     label: "Postular Ahora",
-                    primary: true,
+                    variant: "contained" as const,
+                    color: "primary" as const,
+                    fill: true,
                   },
                   {
                     icon: "star",
                     label: "Guardar en Favoritos",
-                    primary: false,
+                    variant: "outlined" as const,
+                    color: "inherit" as const,
+                    fill: false,
                   },
                   {
                     icon: "archive",
                     label: "Archivar Oportunidad",
-                    primary: false,
+                    variant: "outlined" as const,
+                    color: "inherit" as const,
+                    fill: false,
                   },
                 ].map((action) => (
-                  <button
+                  <Button
                     key={action.label}
-                    className={`w-full font-label-md text-label-md py-stack-md rounded-lg flex items-center justify-center gap-2 transition-all active:scale-[0.98] cursor-pointer ${
-                      action.primary
-                        ? "bg-primary text-on-primary hover:opacity-90"
-                        : "border border-outline-variant text-on-surface hover:bg-surface-container-high"
-                    }`}
+                    fullWidth
+                    variant={action.variant}
+                    color={action.color}
+                    startIcon={
+                      <span
+                        className="material-symbols-outlined"
+                        style={
+                          action.fill
+                            ? { fontVariationSettings: "'FILL' 1" }
+                            : undefined
+                        }
+                      >
+                        {action.icon}
+                      </span>
+                    }
                   >
-                    <span
-                      className="material-symbols-outlined"
-                      style={
-                        action.primary
-                          ? { fontVariationSettings: "'FILL' 1" }
-                          : undefined
-                      }
-                    >
-                      {action.icon}
-                    </span>
                     {action.label}
-                  </button>
+                  </Button>
                 ))}
               </div>
 
@@ -293,11 +301,19 @@ export default function OpportunityDetailPage() {
                   Notas Personales
                 </h4>
                 <div className="relative">
-                  <textarea
-                    className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-stack-sm font-body-sm text-body-sm text-on-surface h-32 focus:ring-1 focus:ring-primary focus:border-primary resize-none transition-all"
+                  <TextField
+                    multiline
+                    minRows={5}
+                    fullWidth
+                    variant="outlined"
                     placeholder="Escribe tus notas sobre este puesto..."
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        backgroundColor: "var(--color-surface-container-lowest, #1c1b1b)",
+                      },
+                    }}
                   />
-                  <div className="absolute bottom-2 right-2 text-on-surface-variant font-label-sm text-label-sm">
+                  <div className="absolute bottom-3 right-3 text-on-surface-variant font-label-sm text-label-sm">
                     Autoguardado
                   </div>
                 </div>

@@ -1,6 +1,6 @@
 import Link from "next/link";
-import MatchScore from "./match-score";
-import Tag from "./tag";
+import MatchScore from "@/components/common/match-score";
+import Tag from "@/components/common/tag";
 
 export type Job = {
   id?: string;
