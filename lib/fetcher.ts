@@ -27,7 +27,7 @@ type FetcherResponse<T> = {
 };
 
 class Fetcher {
-  private config: Required<FetcherConfig>;
+  private readonly config: Required<FetcherConfig>;
 
   constructor(config: FetcherConfig = {}) {
     this.config = {

@@ -10,7 +10,7 @@ export default function MatchScore({
   size = 48,
   strokeWidth = 3,
   label,
-}: Props) {
+}: Readonly<Props>) {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (percentage / 100) * circumference;

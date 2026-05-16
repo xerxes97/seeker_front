@@ -40,7 +40,7 @@ export async function login(
     );
 
     if (!res.ok) {
-      return { error: "Credenciales inválidas. Intenta de nuevo." };
+      return { error: "Usuario o contraseña no encontrados" };
     }
 
     return { success: true };

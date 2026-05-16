@@ -17,7 +17,7 @@ type Props = {
   job: Job;
 };
 
-export default function JobCard({ job }: Props) {
+export default function JobCard({ job }: Readonly<Props>) {
   return (
     <Link
       href={`/findings/${job.id ?? job.title.toLowerCase().replace(/\s+/g, "-")}`}

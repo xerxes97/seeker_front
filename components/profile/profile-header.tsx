@@ -1,4 +1,3 @@
-import Tag from "@/components/common/tag";
 import Button from "@/components/common/button";
 import IconButton from "@mui/material/IconButton";
 
@@ -14,11 +13,11 @@ export default function ProfileHeader({
   role,
   avatar,
   statuses,
-}: Props) {
+}: Readonly<Props>) {
   return (
-    <section className="flex flex-col md:flex-row items-center gap-stack-lg mb-margin-desktop">
+    <section className="flex flex-col md:flex-row items-center mb-margin-desktop gap-stack-lg">
       <div className="relative group">
-        <div className="h-32 w-32 rounded-full overflow-hidden border-2 border-primary p-1 bg-surface-container">
+        <div className="h-24 w-24 rounded-full overflow-hidden border-2 border-primary p-1 bg-surface-container">
           <img
             alt={`${name} avatar`}
             className="h-full w-full rounded-full object-cover"
@@ -48,21 +47,9 @@ export default function ProfileHeader({
         <p className="font-body-lg text-body-lg text-on-surface-variant">
           {role}
         </p>
-        {statuses && (
-          <div className="flex gap-stack-sm mt-stack-md justify-center md:justify-start">
-            {statuses.map((s) => (
-              <Tag key={s} variant={s.includes("Open") ? "primary" : "default"}>
-                {s}
-              </Tag>
-            ))}
-          </div>
-        )}
       </div>
 
       <div className="flex gap-stack-md">
-        <Button variant="outlined" color="inherit">
-          Public View
-        </Button>
         <Button variant="contained" color="primary">
           Save Profile
         </Button>

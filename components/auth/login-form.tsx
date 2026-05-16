@@ -1,8 +1,8 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { login, type LoginState } from "@/lib/actions/auth";
-import Divider from "@/components/common/divider";
 import Alert from "@/components/common/alert";
 import Button from "@/components/common/button";
 
@@ -10,6 +10,13 @@ const initialState: LoginState = {};
 
 export default function LoginForm() {
   const [state, formAction, pending] = useActionState(login, initialState);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (state.success) {
+      router.push("/findings");
+    }
+  }, [state.success, router]);
 
   return (
     <>
@@ -23,12 +30,6 @@ export default function LoginForm() {
       </div>
 
       {state.error && <Alert variant="error" message={state.error} />}
-      {state.success && (
-        <Alert
-          variant="success"
-          message="Inicio de sesión exitoso. Redirigiendo..."
-        />
-      )}
 
       {/* Social login (Google/GitHub) no soportado actualmente */}
 
@@ -45,11 +46,10 @@ export default function LoginForm() {
               mail
             </span>
             <input
-              className={`w-full bg-surface-container-lowest border rounded-lg py-3 pl-12 pr-4 text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200 ${
-                state.fieldErrors?.email
+              className={`w-full bg-surface-container-lowest border rounded-lg py-3 pl-12 pr-4 text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200 ${state.fieldErrors?.email
                   ? "border-error"
                   : "border-outline-variant"
-              }`}
+                }`}
               id="email"
               name="email"
               placeholder="nombre@empresa.com"
@@ -84,11 +84,10 @@ export default function LoginForm() {
               lock
             </span>
             <input
-              className={`w-full bg-surface-container-lowest border rounded-lg py-3 pl-12 pr-4 text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200 ${
-                state.fieldErrors?.password
+              className={`w-full bg-surface-container-lowest border rounded-lg py-3 pl-12 pr-4 text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200 ${state.fieldErrors?.password
                   ? "border-error"
                   : "border-outline-variant"
-              }`}
+                }`}
               id="password"
               name="password"
               placeholder="••••••••"

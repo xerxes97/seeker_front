@@ -6,7 +6,7 @@ import IconButton from "@mui/material/IconButton";
 
 export default function ProfilePage() {
   return (
-    <div className="p-margin-desktop min-h-screen">
+    <div className="p-margin-desktop min-h-screen p-6">
         <div className="max-w-container-max mx-auto">
           <ProfileHeader
             name="Elias P. Henderson"
