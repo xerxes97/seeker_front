@@ -1,56 +1,57 @@
 import ProfileHeader from "@/components/profile/profile-header";
-import SkillChip from "@/components/profile/skill-chip";
+import SkillManager from "@/components/profile/skill-manager";
+import ModalityPicker from "@/components/profile/modality-picker";
 import SectionCard from "@/components/common/section-card";
-import Button from "@/components/common/button";
 import IconButton from "@mui/material/IconButton";
+import { MODALITY } from "@/constants/modality";
 
 export default function ProfilePage() {
   return (
     <div className="p-margin-desktop min-h-screen p-6">
-        <div className="max-w-container-max mx-auto">
-          <ProfileHeader
-            name="Elias P. Henderson"
-            role="Senior Cloud Solutions Architect • San Francisco, CA"
-            avatar="https://lh3.googleusercontent.com/aida-public/AB6AXuBn6SVsS7sEjym0_beWOlbu9Sd6qTpjgCDUsaUse7a-xXIkrrgAil5Lw9MAZ9AJdqDh_iINDDfRr0wHvtXBP5LkxOYXjzmJJrp0G2qJu-YS_kyvwSfy-6INHDNhPSYIe81ExBM5LCvHutr5fII4syV9S31DOCgasqoCRBOSQkd4_tE8EorXuXwkAqd34OHLSE9NARDe8YiaHAPp4oPI6erNmZqRhpQ05OCBPK-0NH33P0wS8n3h_6qqOEQO9F0P439nWLr-MP5JMg"
-            statuses={["Active Candidate", "Open to Offers"]}
-          />
+      <div className="max-w-container-max mx-auto">
+        <ProfileHeader
+          name="Elias P. Henderson"
+          role="Senior Cloud Solutions Architect • San Francisco, CA"
+          avatar="https://lh3.googleusercontent.com/aida-public/AB6AXuBn6SVsS7sEjym0_beWOlbu9Sd6qTpjgCDUsaUse7a-xXIkrrgAil5Lw9MAZ9AJdqDh_iINDDfRr0wHvtXBP5LkxOYXjzmJJrp0G2qJu-YS_kyvwSfy-6INHDNhPSYIe81ExBM5LCvHutr5fII4syV9S31DOCgasqoCRBOSQkd4_tE8EorXuXwkAqd34OHLSE9NARDe8YiaHAPp4oPI6erNmZqRhpQ05OCBPK-0NH33P0wS8n3h_6qqOEQO9F0P439nWLr-MP5JMg"
+          statuses={["Active Candidate", "Open to Offers"]}
+        />
 
-          <div className="grid grid-cols-12 gap-gutter">
-            {/* CV Upload */}
-            <SectionCard
-              variant="bento"
-              className="col-span-12 lg:col-span-8 min-h-[320px] flex flex-col items-center justify-center text-center group cursor-pointer"
-              hover
-            >
-              <div className="h-16 w-16 bg-surface-container-high rounded-full flex items-center justify-center mb-stack-md group-hover:scale-110 transition-transform">
-                <span className="material-symbols-outlined text-primary text-[32px]">
-                  cloud_upload
+        <div className="grid grid-cols-12 gap-6">
+          {/* CV Upload */}
+          <SectionCard
+            variant="bento"
+            className="col-span-12 lg:col-span-12 min-h-[320px] flex flex-col items-center justify-center text-center group cursor-pointer mt-6"
+            hover
+          >
+            <div className="h-16 w-16 bg-surface-container-high rounded-full flex items-center justify-center mb-stack-md group-hover:scale-110 transition-transform">
+              <span className="material-symbols-outlined text-primary text-[32px]">
+                cloud_upload
+              </span>
+            </div>
+            <h3 className="font-headline-md text-headline-md mb-2">
+              Upload your CV
+            </h3>
+            <p className="font-body-md text-body-md text-on-surface-variant max-w-md mb-stack-lg">
+              Drag and drop your latest PDF or DOCX file. Our AI will
+              automatically parse your skills and match you to top-tier roles.
+            </p>
+            <div className="px-stack-lg py-stack-md border-2 border-dashed border-outline-variant rounded-xl flex items-center gap-3">
+              <span className="material-symbols-outlined text-outline">
+                description
+              </span>
+              <span className="font-label-md text-label-md">
+                Henderson_CV_2024.pdf
+              </span>
+              <IconButton size="small" sx={{ color: "var(--color-error, #ffb4ab)" }}>
+                <span className="material-symbols-outlined text-[18px]">
+                  close
                 </span>
-              </div>
-              <h3 className="font-headline-md text-headline-md mb-2">
-                Upload your CV
-              </h3>
-              <p className="font-body-md text-body-md text-on-surface-variant max-w-md mb-stack-lg">
-                Drag and drop your latest PDF or DOCX file. Our AI will
-                automatically parse your skills and match you to top-tier roles.
-              </p>
-              <div className="px-stack-lg py-stack-md border-2 border-dashed border-outline-variant rounded-xl flex items-center gap-3">
-                <span className="material-symbols-outlined text-outline">
-                  description
-                </span>
-                <span className="font-label-md text-label-md">
-                  Henderson_CV_2024.pdf
-                </span>
-                <IconButton size="small" sx={{ color: "var(--color-error, #ffb4ab)" }}>
-                  <span className="material-symbols-outlined text-[18px]">
-                    close
-                  </span>
-                </IconButton>
-              </div>
-            </SectionCard>
+              </IconButton>
+            </div>
+          </SectionCard>
 
-            {/* Salary */}
-            <SectionCard
+          {/* Salary */}
+          {/* <SectionCard
               variant="bento"
               className="col-span-12 lg:col-span-4 flex flex-col gap-stack-lg"
             >
@@ -87,133 +88,39 @@ export default function ProfilePage() {
                   your role.
                 </p>
               </div>
-            </SectionCard>
+            </SectionCard> */}
 
-            {/* Work Preferences */}
-            <SectionCard
-              variant="bento"
-              className="col-span-12 lg:col-span-5 flex flex-col gap-stack-lg"
-            >
-              <h3 className="font-label-md text-label-md uppercase tracking-widest text-on-surface-variant">
-                Work Preferences
-              </h3>
-              <div className="grid grid-cols-2 gap-stack-md">
-                {[
-                  {
-                    icon: "laptop_mac",
-                    label: "Remote",
-                    note: "Primary Choice",
-                    active: true,
-                  },
-                  {
-                    icon: "corporate_fare",
-                    label: "Hybrid",
-                    note: "Secondary Choice",
-                    active: false,
-                  },
-                  {
-                    icon: "apartment",
-                    label: "On-site",
-                    note: "Not Preferred",
-                    active: false,
-                  },
-                  {
-                    icon: "public",
-                    label: "Global Relo",
-                    note: "Available",
-                    active: false,
-                  },
-                ].map((pref) => (
-                  <button
-                    key={pref.label}
-                    className={`flex flex-col items-start p-stack-md rounded-xl transition-all cursor-pointer ${
-                      pref.active
-                        ? "border-2 border-primary bg-primary-container/10 text-on-surface"
-                        : "border border-outline-variant bg-surface hover:bg-surface-container-high text-on-surface-variant"
-                    }`}
-                  >
-                    <span
-                      className={`material-symbols-outlined mb-2 ${pref.active ? "text-primary" : ""}`}
-                      style={
-                        pref.active
-                          ? { fontVariationSettings: "'FILL' 1" }
-                          : undefined
-                      }
-                    >
-                      {pref.icon}
-                    </span>
-                    <span className="font-label-md text-label-md">
-                      {pref.label}
-                    </span>
-                    <span className="text-[10px] text-outline uppercase mt-1">
-                      {pref.note}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </SectionCard>
+          {/* Work Preferences */}
+          <SectionCard
+            variant="bento"
+            className="col-span-12 lg:col-span-5 flex flex-col gap-stack-lg p-6"
+          >
+            <h3 className="font-label-md text-label-md uppercase tracking-widest text-on-surface-variant mb-6">
+              Work Preferences
+            </h3>
+            <ModalityPicker options={MODALITY} defaultSelected={["Remote"]} />
+          </SectionCard>
 
-            {/* Skills */}
-            <SectionCard
-              variant="bento"
-              className="col-span-12 lg:col-span-7"
-            >
-              <div className="flex items-center justify-between mb-stack-lg">
-                <h3 className="font-label-md text-label-md uppercase tracking-widest text-on-surface-variant">
-                  Verified Skills
-                </h3>
-                <Button
-                  variant="text"
-                  color="primary"
-                  size="small"
-                  startIcon={
-                    <span className="material-symbols-outlined text-[16px]">
-                      add
-                    </span>
-                  }
-                >
-                  Add Skill
-                </Button>
-              </div>
-
-              <div className="flex flex-wrap gap-stack-sm">
-                {[
-                  { name: "Kubernetes", level: "expert" as const },
-                  { name: "AWS Architecture", level: "expert" as const },
-                  { name: "Terraform", level: "expert" as const },
-                  { name: "Python", level: "intermediate" as const },
-                  { name: "System Design", level: "intermediate" as const },
-                  { name: "Go (Golang)", level: "intermediate" as const },
-                  { name: "PostgreSQL", level: "basic" as const },
-                ].map((skill) => (
-                  <SkillChip
-                    key={skill.name}
-                    name={skill.name}
-                    level={skill.level}
-                    removable
-                  />
-                ))}
-              </div>
-
-              <div className="mt-stack-lg p-stack-md bg-primary-container/10 border border-primary/20 rounded-xl flex items-center gap-stack-md">
-                <span className="material-symbols-outlined text-primary">
-                  auto_awesome
-                </span>
-                <p className="font-body-sm text-body-sm text-on-surface-variant">
-                  We&apos;ve identified 3 additional skills from your CV.{" "}
-                  <Button
-                    variant="text"
-                    color="primary"
-                    size="small"
-                    sx={{ p: 0, minWidth: "auto", verticalAlign: "baseline", fontSize: "inherit", fontWeight: 500 }}
-                  >
-                    Add them to your profile.
-                  </Button>
-                </p>
-              </div>
-            </SectionCard>
-          </div>
+          {/* Skills */}
+          <SectionCard
+            variant="bento"
+            className="col-span-12 lg:col-span-7 p-6"
+          >
+            <SkillManager
+              initialSkills={[
+                { name: "Kubernetes", level: "expert" },
+                { name: "AWS Architecture", level: "expert" },
+                { name: "Terraform", level: "expert" },
+                { name: "Python", level: "intermediate" },
+                { name: "System Design", level: "intermediate" },
+                { name: "Go (Golang)", level: "intermediate" },
+                { name: "PostgreSQL", level: "basic" },
+              ]}
+            />
+          </SectionCard>
         </div>
+      </div>
     </div>
   );
 }
+

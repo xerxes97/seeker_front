@@ -60,7 +60,7 @@ class Fetcher {
       ...extra,
     };
 
-    const token = await cookies.get("auth_token");
+    const token = await cookies.get("access_token");
     if (token) {
       headers["Authorization"] = `Bearer ${token}`;
     }
