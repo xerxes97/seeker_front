@@ -6,8 +6,10 @@ import TextField from "@mui/material/TextField";
 import SkillChip from "@/components/profile/skill-chip";
 import Button from "@/components/common/button";
 
-import type { Skill } from "@/types/profile";
-export type { Skill };
+export type Skill = {
+  name: string;
+  value: string;
+};
 
 const SUGGESTED_SKILLS = [
   "React",
@@ -41,22 +43,22 @@ export default function SkillManager({ initialSkills = [], onChange }: Readonly<
   const addSkill = (name: string) => {
     const trimmed = name.trim();
     if (!trimmed) return;
-    if (skills.some((s) => s.name.toLowerCase() === trimmed.toLowerCase())) return;
-    const next = [...skills, { name: trimmed, level: "intermediate" as const }];
+    if (skills.some((s) => s.value.toLowerCase() === trimmed.toLowerCase())) return;
+    const next = [...skills, { name: trimmed, value: trimmed }];
     setSkills(next);
     onChange?.(next);
     setOpen(false);
     inputRef.current?.blur();
   };
 
-  const removeSkill = (name: string) => {
-    const next = skills.filter((s) => s.name !== name);
+  const removeSkill = (value: string) => {
+    const next = skills.filter((s) => s.value !== value);
     setSkills(next);
     onChange?.(next);
   };
 
   const availableOptions = SUGGESTED_SKILLS.filter(
-    (s) => !skills.some((sk) => sk.name.toLowerCase() === s.toLowerCase()),
+    (s) => !skills.some((sk) => sk.value.toLowerCase() === s.toLowerCase()),
   );
 
   return (
@@ -98,7 +100,7 @@ export default function SkillManager({ initialSkills = [], onChange }: Readonly<
               slotProps={{
                 ...sp,
                 input: {
-                  ...(sp?.input as Record<string, unknown> || {}),
+                  ...((sp?.input as Record<string, unknown>) || {}),
                   endAdornment: (
                     <Button
                       size="small"
@@ -132,11 +134,10 @@ export default function SkillManager({ initialSkills = [], onChange }: Readonly<
       <div className="flex flex-wrap gap-4 mt-6">
         {skills.map((skill) => (
           <SkillChip
-            key={skill.name}
+            key={skill.value}
             name={skill.name}
-            level={skill.level}
             removable
-            onRemove={() => removeSkill(skill.name)}
+            onRemove={() => removeSkill(skill.value)}
           />
         ))}
       </div>

@@ -2,24 +2,14 @@
 
 import IconButton from "@mui/material/IconButton";
 
-type Level = "expert" | "intermediate" | "basic";
-
 type Props = {
   name: string;
-  level?: Level;
   removable?: boolean;
   onRemove?: () => void;
 };
 
-const levelColors: Record<Level, string> = {
-  expert: "bg-emerald-400",
-  intermediate: "bg-primary",
-  basic: "bg-outline",
-};
-
 export default function SkillChip({
   name,
-  level = "intermediate",
   removable,
   onRemove,
 }: Readonly<Props>) {
@@ -28,7 +18,6 @@ export default function SkillChip({
       <span className="font-label-sm text-label-sm text-on-surface">
         {name}
       </span>
-      <span className={`h-2 w-2 rounded-full ${levelColors[level]}`} />
       {removable && (
         <IconButton
           onClick={onRemove}

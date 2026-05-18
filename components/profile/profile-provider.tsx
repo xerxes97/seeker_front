@@ -8,10 +8,10 @@ export default function ProfileProvider({ children }: Readonly<{ children: React
   const profile = useStore((s) => s.profile);
 
   useEffect(() => {
-    if (!profile) {
+    if (!profile.id) {
       fetchProfile();
     }
-  }, [fetchProfile, profile]);
+  }, [fetchProfile, profile.id]);
 
   return <>{children}</>;
 }

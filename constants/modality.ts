@@ -1,7 +1,10 @@
+export const MODALITY_VALUES = ["remote", "hybrid", "onsite", "global_relo"] as const;
+export type Modality = (typeof MODALITY_VALUES)[number];
+
 export type ModalityOption = {
   icon: string;
   label: string;
-  value: string;
+  value: Modality;
 };
 
 export const MODALITY: ModalityOption[] = [

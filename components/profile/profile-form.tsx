@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@/components/common/button";
 import SectionCard from "@/components/common/section-card";
@@ -8,34 +8,45 @@ import ModalityPicker from "@/components/profile/modality-picker";
 import SkillManager from "@/components/profile/skill-manager";
 import { MODALITY } from "@/constants/modality";
 import type { Skill } from "@/components/profile/skill-manager";
+import { useStore } from "@/stores";
+
+type FormState = {
+  name: string;
+  lastname: string;
+  location: string;
+  experience_years: string;
+  modality: string[];
+  skills: Skill[];
+};
+
+const initialForm = (profile: ReturnType<typeof useStore.getState>["profile"]): FormState => ({
+  name: profile.name ?? "",
+  lastname: profile.lastname ?? "",
+  location: profile.location ?? "",
+  experience_years: String(profile.experience_years ?? ""),
+  modality: profile.modality ?? [],
+  skills: (profile.skills ?? []).map((s) => ({ name: s, value: s })),
+});
 
 export default function ProfileForm() {
-  const [name, setName] = useState("Elias");
-  const [lastname, setLastname] = useState("Henderson");
-  const [location, setLocation] = useState("San Francisco, CA");
-  const [experienceYears, setExperienceYears] = useState("10");
-  const [modality, setModality] = useState<string[]>(["remote"]);
-  const [skills, setSkills] = useState<Skill[]>([
-    { name: "Kubernetes", level: "expert" },
-    { name: "AWS Architecture", level: "expert" },
-    { name: "Terraform", level: "expert" },
-    { name: "Python", level: "intermediate" },
-    { name: "System Design", level: "intermediate" },
-    { name: "Go (Golang)", level: "intermediate" },
-    { name: "PostgreSQL", level: "basic" },
-  ]);
+  const profile = useStore((s) => s.profile);
+  const updateProfile = useStore((s) => s.updateProfile);
+  const [form, setForm] = useState<FormState>(() => initialForm(profile));
+
+  const setField = useCallback(<K extends keyof FormState>(key: K, value: FormState[K]) => {
+    setForm((prev) => ({ ...prev, [key]: value }));
+  }, []);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const payload = {
-      name,
-      lastname,
-      location,
-      experience_years: Number(experienceYears),
-      modality,
-      skills,
-    };
-    console.log("Profile payload:", payload);
+    updateProfile({
+      name: form.name,
+      lastname: form.lastname,
+      location: form.location,
+      experience_years: Number(form.experience_years),
+      modality: form.modality,
+      skills: form.skills.map((s) => s.value),
+    });
   };
 
   return (
@@ -47,8 +58,8 @@ export default function ProfileForm() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <TextField
             label="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={form.name}
+            onChange={(e) => setField("name", e.target.value)}
             variant="outlined"
             size="small"
             fullWidth
@@ -60,8 +71,8 @@ export default function ProfileForm() {
           />
           <TextField
             label="Last Name"
-            value={lastname}
-            onChange={(e) => setLastname(e.target.value)}
+            value={form.lastname}
+            onChange={(e) => setField("lastname", e.target.value)}
             variant="outlined"
             size="small"
             fullWidth
@@ -73,8 +84,8 @@ export default function ProfileForm() {
           />
           <TextField
             label="Location"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
+            value={form.location}
+            onChange={(e) => setField("location", e.target.value)}
             variant="outlined"
             size="small"
             fullWidth
@@ -86,8 +97,8 @@ export default function ProfileForm() {
           />
           <TextField
             label="Years of Experience"
-            value={experienceYears}
-            onChange={(e) => setExperienceYears(e.target.value)}
+            value={form.experience_years}
+            onChange={(e) => setField("experience_years", e.target.value)}
             variant="outlined"
             size="small"
             type="number"
@@ -108,8 +119,8 @@ export default function ProfileForm() {
           </h3>
           <ModalityPicker
             options={MODALITY}
-            defaultSelected={modality}
-            onChange={setModality}
+            defaultSelected={form.modality}
+            onChange={(v) => setField("modality", v)}
           />
         </SectionCard>
 
@@ -118,8 +129,8 @@ export default function ProfileForm() {
             Verified Skills
           </h3>
           <SkillManager
-            initialSkills={skills}
-            onChange={setSkills}
+            initialSkills={form.skills}
+            onChange={(v) => setField("skills", v)}
           />
         </SectionCard>
       </div>

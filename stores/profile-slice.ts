@@ -1,9 +1,9 @@
 import type { StateCreator } from "zustand";
-import type { Profile } from "@/types/profile";
+import { DEFAULT_PROFILE, type Profile } from "@/types/profile";
 import { profileService } from "@/lib/services";
 
 export interface ProfileSlice {
-  profile: Profile | null;
+  profile: Profile;
   loading: boolean;
   error: string | null;
   fetchProfile: () => Promise<void>;
@@ -12,7 +12,7 @@ export interface ProfileSlice {
 }
 
 export const createProfileSlice: StateCreator<ProfileSlice> = (set) => ({
-  profile: null,
+  profile: DEFAULT_PROFILE,
   loading: false,
   error: null,
 
@@ -33,5 +33,5 @@ export const createProfileSlice: StateCreator<ProfileSlice> = (set) => ({
     }
   },
 
-  clearProfile: () => set({ profile: null, error: null }),
+  clearProfile: () => set({ profile: DEFAULT_PROFILE, error: null }),
 });
