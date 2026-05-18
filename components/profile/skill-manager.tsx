@@ -6,10 +6,8 @@ import TextField from "@mui/material/TextField";
 import SkillChip from "@/components/profile/skill-chip";
 import Button from "@/components/common/button";
 
-export type Skill = {
-  name: string;
-  level: "expert" | "intermediate" | "basic";
-};
+import type { Skill } from "@/types/profile";
+export type { Skill };
 
 const SUGGESTED_SKILLS = [
   "React",
@@ -34,7 +32,7 @@ type Props = {
   onChange?: (skills: Skill[]) => void;
 };
 
-export default function SkillManager({ initialSkills = [], onChange }: Props) {
+export default function SkillManager({ initialSkills = [], onChange }: Readonly<Props>) {
   const [skills, setSkills] = useState<Skill[]>(initialSkills);
   const [inputValue, setInputValue] = useState("");
   const [open, setOpen] = useState(false);

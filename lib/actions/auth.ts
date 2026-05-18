@@ -1,3 +1,5 @@
+import { authService } from "@/lib/services";
+
 export type LoginState = {
   error?: string;
   success?: boolean;
@@ -29,29 +31,12 @@ export async function login(
   }
 
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password, remember }),
-        credentials: "include",
-      }
-    );
-
-    if (!res.ok) {
-      return { error: "Usuario o contraseña no encontrados" };
+    const res = await authService.login(email, password, remember);
+    if (res) {
+      return { success: true };
     }
-
-    return { success: true };
+    return { error: "Usuario o contraseña no encontrados" };
   } catch {
     return { error: "Error de conexión. Verifica tu red e intenta de nuevo." };
   }
-}
-
-export async function logout(): Promise<void> {
-  await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
-    method: "POST",
-    credentials: "include",
-  });
 }

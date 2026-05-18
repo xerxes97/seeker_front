@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Button from "@/components/common/button";
+import { useStore } from "@/stores";
 
 const navItems = [
   { href: "/findings", icon: "work_outline", label: "Findings" },
@@ -14,6 +15,8 @@ const navItems = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const logout = useStore((s) => s.logout);
 
   const isActive = (href: string) => pathname.startsWith(href);
 
@@ -58,13 +61,16 @@ export default function Sidebar() {
             <span className="material-symbols-outlined">help_outline</span>
             <span className="font-body-md text-body-md">Help</span>
           </Link>
-          <Link
-            href="/"
-            className="flex items-center gap-3 py-2 px-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-colors"
+          <button
+            onClick={async () => {
+              await logout();
+              router.push("/");
+            }}
+            className="flex items-center gap-3 py-2 px-3 w-full text-left text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-colors"
           >
             <span className="material-symbols-outlined">logout</span>
             <span className="font-body-md text-body-md">Logout</span>
-          </Link>
+          </button>
         </div>
 
         <div className="flex items-center gap-3 px-3 pt-2">
