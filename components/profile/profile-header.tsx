@@ -1,4 +1,3 @@
-import Button from "@/components/common/button";
 import IconButton from "@mui/material/IconButton";
 
 type Props = {
@@ -47,12 +46,6 @@ export default function ProfileHeader({
         <p className="font-body-lg text-body-lg text-on-surface-variant">
           {role}
         </p>
-      </div>
-
-      <div className="flex gap-stack-md">
-        <Button variant="contained" color="primary">
-          Save Profile
-        </Button>
       </div>
     </section>
   );

@@ -31,9 +31,10 @@ const SUGGESTED_SKILLS = [
 
 type Props = {
   initialSkills?: Skill[];
+  onChange?: (skills: Skill[]) => void;
 };
 
-export default function SkillManager({ initialSkills = [] }: Props) {
+export default function SkillManager({ initialSkills = [], onChange }: Props) {
   const [skills, setSkills] = useState<Skill[]>(initialSkills);
   const [inputValue, setInputValue] = useState("");
   const [open, setOpen] = useState(false);
@@ -43,14 +44,22 @@ export default function SkillManager({ initialSkills = [] }: Props) {
     const trimmed = name.trim();
     if (!trimmed) return;
     if (skills.some((s) => s.name.toLowerCase() === trimmed.toLowerCase())) return;
-    setSkills((prev) => [...prev, { name: trimmed, level: "intermediate" }]);
+    const next = [...skills, { name: trimmed, level: "intermediate" as const }];
+    setSkills(next);
+    onChange?.(next);
     setOpen(false);
     inputRef.current?.blur();
   };
 
   const removeSkill = (name: string) => {
-    setSkills((prev) => prev.filter((s) => s.name !== name));
+    const next = skills.filter((s) => s.name !== name);
+    setSkills(next);
+    onChange?.(next);
   };
+
+  const availableOptions = SUGGESTED_SKILLS.filter(
+    (s) => !skills.some((sk) => sk.name.toLowerCase() === s.toLowerCase()),
+  );
 
   return (
     <>
@@ -60,7 +69,7 @@ export default function SkillManager({ initialSkills = [] }: Props) {
         open={open}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
-        options={SUGGESTED_SKILLS}
+        options={availableOptions}
         inputValue={inputValue}
         onInputChange={(_, v) => {
           setInputValue(v);

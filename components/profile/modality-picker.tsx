@@ -12,25 +12,23 @@ type Props = {
 export default function ModalityPicker({ options, defaultSelected = [], onChange }: Readonly<Props>) {
   const [selected, setSelected] = useState<string[]>(defaultSelected);
 
-  const toggle = (label: string) => {
-    setSelected((prev) => {
-      const next = prev.includes(label)
-        ? prev.filter((l) => l !== label)
-        : [...prev, label];
-      onChange?.(next);
-      return next;
-    });
+  const toggle = (value: string) => {
+    const next = selected.includes(value)
+      ? selected.filter((v) => v !== value)
+      : [...selected, value];
+    setSelected(next);
+    onChange?.(next);
   };
 
   return (
     <div className="grid grid-cols-2 gap-6">
       {options.map((opt) => {
-        const active = selected.includes(opt.label);
+        const active = selected.includes(opt.value);
         return (
           <button
-            key={opt.label}
+            key={opt.value}
             type="button"
-            onClick={() => toggle(opt.label)}
+            onClick={() => toggle(opt.value)}
             className={`flex flex-col items-center p-4 rounded-xl transition-all cursor-pointer justify-center border-2 ${
               active
                 ? "border-primary bg-primary-container/10 text-on-surface"
