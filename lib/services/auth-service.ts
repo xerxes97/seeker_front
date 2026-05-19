@@ -9,6 +9,14 @@ export class AuthService {
     return res.ok;
   }
 
+  async register(email: string, password: string): Promise<boolean> {
+    const res = await api.post<{ email: string; password: string }, { user?: { email: string } }>(
+      "/auth/register",
+      { email, password },
+    );
+    return res.ok;
+  }
+
   async logout(): Promise<void> {
     await api.post("/auth/logout");
   }
