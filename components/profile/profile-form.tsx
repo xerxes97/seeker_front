@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@/components/common/button";
 import SectionCard from "@/components/common/section-card";
@@ -25,13 +25,25 @@ const initialForm = (profile: ReturnType<typeof useStore.getState>["profile"]): 
   location: profile.location ?? "",
   experience_years: String(profile.experience_years ?? ""),
   modality: profile.modality ?? [],
-  skills: (profile.skills ?? []).map((s) => ({ name: s, value: s })),
+  skills: (profile.skills ?? []).map((s: any) => {
+    if (typeof s === "string") return { name: s, value: s };
+    return { name: s.name ?? String(s), value: s.value ?? s.name ?? String(s) };
+  }),
 });
 
 export default function ProfileForm() {
   const profile = useStore((s) => s.profile);
+  const loading = useStore((s) => s.loading);
   const updateProfile = useStore((s) => s.updateProfile);
   const [form, setForm] = useState<FormState>(() => initialForm(profile));
+  const [syncKey, setSyncKey] = useState(0);
+
+  useEffect(() => {
+    if (!loading && profile.id) {
+      setForm(initialForm(profile));
+      setSyncKey((k) => k + 1);
+    }
+  }, [loading, profile.id]);
 
   const setField = useCallback(<K extends keyof FormState>(key: K, value: FormState[K]) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -129,6 +141,7 @@ export default function ProfileForm() {
             Verified Skills
           </h3>
           <SkillManager
+            key={syncKey}
             initialSkills={form.skills}
             onChange={(v) => setField("skills", v)}
           />

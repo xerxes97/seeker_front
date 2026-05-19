@@ -13,11 +13,10 @@ export interface ProfileSlice {
 
 export const createProfileSlice: StateCreator<ProfileSlice> = (set) => ({
   profile: DEFAULT_PROFILE,
-  loading: false,
+  loading: true,
   error: null,
 
   fetchProfile: async () => {
-    set({ loading: true, error: null });
     const profile = await profileService.get();
     if (profile) {
       set({ profile, loading: false });

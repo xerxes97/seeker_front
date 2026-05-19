@@ -66,7 +66,7 @@ export default function Sidebar() {
               await logout();
               router.push("/");
             }}
-            className="flex items-center gap-3 py-2 px-3 w-full text-left text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-colors"
+            className="flex items-center gap-3 py-2 px-3 w-full text-left cursor-pointer text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-colors"
           >
             <span className="material-symbols-outlined">logout</span>
             <span className="font-body-md text-body-md">Logout</span>
