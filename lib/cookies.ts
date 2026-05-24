@@ -12,14 +12,18 @@ function isServer(): boolean {
 
 export const cookies = {
   async get(name: string): Promise<string | undefined> {
+    console.log("Getting cookie", name, isServer());
     if (isServer()) {
       const { cookies: nextCookies } = await import("next/headers");
       const store = await nextCookies();
+      console.log("Store", store);
+      console.log("Store get", store.get(name));
       return store.get(name)?.value;
     }
     const match = document.cookie.match(
       new RegExp(`(?:^|;\\s*)${name}=([^;]*)`)
     );
+    console.log("Match", match);
     return match ? decodeURIComponent(match[1]) : undefined;
   },
 
