@@ -12,13 +12,14 @@ export function proxy(request: NextRequest) {
     (p) => pathname === p || pathname.startsWith(`${p}/`),
   );
 
-  if (!token && isProtected) {
-    return NextResponse.redirect(new URL("/", request.url));
-  }
+  // if (!token && isProtected) {
+  //   return NextResponse.redirect(new URL("/", request.url));
+  // }
 
-  if (token && pathname === "/") {
-    return NextResponse.redirect(new URL("/findings", request.url));
-  }
+  // if (token && pathname === "/") {
+  //   return NextResponse.redirect(new URL("/findings", request.url));
+  // }
+  // console.log()
 
   return NextResponse.next();
 }

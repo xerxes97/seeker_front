@@ -18,9 +18,10 @@ export default function LoginForm({ onToggle }: Readonly<Props>) {
   const router = useRouter();
 
   useEffect(() => {
+    console.log(state);
     if (state.success) {
       useStore.getState().fetchProfile();
-      router.push("/findings");
+      // router.push("/findings");
     }
   }, [state.success, router]);
 
