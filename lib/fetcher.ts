@@ -1,5 +1,3 @@
-import { cookies } from "./cookies";
-
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
 type FetcherOptions<T = unknown> = {
@@ -59,12 +57,6 @@ class Fetcher {
       Accept: "application/json",
       ...extra,
     };
-
-    const token = await cookies.get("access_token");
-    if (token) {
-      headers["Authorization"] = `Bearer ${token}`;
-    }
-
     return headers;
   }
 

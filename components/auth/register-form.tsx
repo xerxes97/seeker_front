@@ -15,7 +15,6 @@ export default function RegisterForm({ onToggle }: Readonly<Props>) {
   const [state, formAction, pending] = useActionState(registerAction, initialState);
 
   useEffect(() => {
-    console.log("Register success", state);
     if (state.success) {
       onToggle();
     }
