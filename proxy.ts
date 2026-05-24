@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server";
 const protectedPaths = ["/findings", "/profile", "/opportunities"];
 
 export function proxy(request: NextRequest) {
-  const token = request.cookies.get("access_token")?.value;
+  const token = request.cookies.get("access_token")?.value || request.cookies.get("_vercel_jwt")?.value;
   console.log("Token", token);
   const { pathname } = request.nextUrl;
 
