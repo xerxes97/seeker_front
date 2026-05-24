@@ -32,11 +32,13 @@ export async function login(
 
   try {
     const res = await authService.login(email, password, remember);
+    console.log(JSON.stringify(res));
     if (res) {
       return { success: true };
     }
     return { error: "Usuario o contraseña no encontrados" };
-  } catch {
+  } catch (error) {
+    console.log(JSON.stringify(error));
     return { error: "Error de conexión. Verifica tu red e intenta de nuevo." };
   }
 }
