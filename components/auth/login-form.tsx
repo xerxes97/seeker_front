@@ -43,6 +43,7 @@ export default function LoginForm({ onToggle }: Readonly<Props>) {
     try {
       const ok = await authService.login(email, password, remember);
       if (ok) {
+        await new Promise((resolve) => setTimeout(resolve, 150));
         useStore.getState().fetchProfile();
         router.push("/findings");
       } else {
