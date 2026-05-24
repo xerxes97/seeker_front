@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
+import MuiThemeProvider from "@/components/common/mui-theme-provider";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -27,7 +28,7 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-surface-container-lowest text-on-surface font-body-md antialiased selection:bg-primary-container selection:text-on-primary-container">
-        {children}
+        <MuiThemeProvider>{children}</MuiThemeProvider>
       </body>
     </html>
   );

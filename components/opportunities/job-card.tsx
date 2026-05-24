@@ -1,6 +1,6 @@
 import Link from "next/link";
-import MatchScore from "./match-score";
-import Tag from "./tag";
+import MatchScore from "@/components/common/match-score";
+import Tag from "@/components/common/tag";
 
 export type Job = {
   id?: string;
@@ -17,11 +17,11 @@ type Props = {
   job: Job;
 };
 
-export default function JobCard({ job }: Props) {
+export default function JobCard({ job }: Readonly<Props>) {
   return (
     <Link
-      href={`/opportunities/${job.id ?? job.title.toLowerCase().replace(/\s+/g, "-")}`}
-      className="glass-card p-6 rounded-2xl flex flex-col group hover:ring-1 hover:ring-primary/40 transition-all duration-300 block"
+      href={`/findings/${job.id ?? job.title.toLowerCase().replace(/\s+/g, "-")}`}
+      className="glass-card p-6 rounded-2xl flex flex-col group hover:ring-1 hover:ring-primary/40 transition-all duration-300"
     >
       <div className="flex justify-between items-start mb-6">
         <div className="w-14 h-14 bg-[#1e1e1e] rounded-xl flex items-center justify-center border border-outline-variant">

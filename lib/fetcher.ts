@@ -27,7 +27,7 @@ type FetcherResponse<T> = {
 };
 
 class Fetcher {
-  private config: Required<FetcherConfig>;
+  private readonly config: Required<FetcherConfig>;
 
   constructor(config: FetcherConfig = {}) {
     this.config = {
@@ -60,7 +60,7 @@ class Fetcher {
       ...extra,
     };
 
-    const token = await cookies.get("auth_token");
+    const token = await cookies.get("access_token");
     if (token) {
       headers["Authorization"] = `Bearer ${token}`;
     }
