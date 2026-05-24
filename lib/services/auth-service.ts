@@ -1,12 +1,11 @@
-import { api } from "../fetcher";
+import { api, type FetcherResponse } from "../fetcher";
 
 export class AuthService {
-  async login(email: string, password: string, remember: boolean): Promise<boolean> {
-    const res = await api.post<{ email: string; password: string; remember: boolean }, { user?: { email: string; name?: string } }>(
-      "/auth/login",
-      { email, password, remember },
-    );
-    return res.ok;
+  async login(email: string, password: string, remember: boolean): Promise<FetcherResponse<{ user?: { email: string; name?: string }; message?: string }>> {
+    return api.post<
+      { email: string; password: string; remember: boolean },
+      { user?: { email: string; name?: string }; message?: string }
+    >("/auth/login", { email, password, remember });
   }
 
   async register(email: string, password: string): Promise<boolean> {

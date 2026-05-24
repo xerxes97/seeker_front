@@ -1,59 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { authService } from "@/lib/services";
+import { login, type LoginState } from "@/lib/actions/auth";
 import { useStore } from "@/stores";
 import Alert from "@/components/common/alert";
 import Button from "@/components/common/button";
+
+const initialState: LoginState = {};
 
 type Props = {
   onToggle?: () => void;
 };
 
-type FieldErrors = { email?: string; password?: string };
-
 export default function LoginForm({ onToggle }: Readonly<Props>) {
-  const [error, setError] = useState<string | null>(null);
-  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
-  const [pending, setPending] = useState(false);
+  const [state, formAction, pending] = useActionState(login, initialState);
   const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setPending(true);
-    setError(null);
-    setFieldErrors({});
-
-    const formData = new FormData(e.currentTarget);
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-    const remember = formData.get("remember") === "on";
-
-    const validation: FieldErrors = {};
-    if (!email?.includes("@")) validation.email = "Ingresa un email válido";
-    if (!password || password.length < 6) validation.password = "La contraseña debe tener al menos 6 caracteres";
-
-    if (Object.keys(validation).length > 0) {
-      setFieldErrors(validation);
-      setPending(false);
-      return;
+  useEffect(() => {
+    if (state.success) {
+      useStore.getState().fetchProfile();
+      router.push("/findings");
     }
-
-    try {
-      const ok = await authService.login(email, password, remember);
-      if (ok) {
-        useStore.getState().fetchProfile();
-        router.push("/findings");
-      } else {
-        setError("Usuario o contraseña no encontrados");
-      }
-    } catch {
-      setError("Error de conexión. Verifica tu red e intenta de nuevo.");
-    } finally {
-      setPending(false);
-    }
-  };
+  }, [state.success, router]);
 
   return (
     <>
@@ -66,11 +35,11 @@ export default function LoginForm({ onToggle }: Readonly<Props>) {
         </p>
       </div>
 
-      {error && <Alert variant="error" message={error} />}
+      {state.error && <Alert variant="error" message={state.error} />}
 
       {/* Social login (Google/GitHub) no soportado actualmente */}
 
-      <form onSubmit={handleSubmit} className="space-y-stack-md mt-6">
+      <form action={formAction} className="space-y-stack-md mt-6">
         <div className="space-y-stack-sm mb-4">
           <label
             className="font-label-md text-label-md text-on-surface-variant"
@@ -83,7 +52,7 @@ export default function LoginForm({ onToggle }: Readonly<Props>) {
               mail
             </span>
             <input
-              className={`w-full bg-surface-container-lowest border rounded-lg py-3 pl-12 pr-4 text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200 ${fieldErrors.email
+              className={`w-full bg-surface-container-lowest border rounded-lg py-3 pl-12 pr-4 text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200 ${state.fieldErrors?.email
                   ? "border-error"
                   : "border-outline-variant"
                 }`}
@@ -94,9 +63,9 @@ export default function LoginForm({ onToggle }: Readonly<Props>) {
               defaultValue=""
             />
           </div>
-          {fieldErrors.email && (
+          {state.fieldErrors?.email && (
             <p className="font-body-sm text-body-sm text-error ml-1">
-              {fieldErrors.email}
+              {state.fieldErrors.email}
             </p>
           )}
         </div>
@@ -121,7 +90,7 @@ export default function LoginForm({ onToggle }: Readonly<Props>) {
               lock
             </span>
             <input
-              className={`w-full bg-surface-container-lowest border rounded-lg py-3 pl-12 pr-4 text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200 ${fieldErrors.password
+              className={`w-full bg-surface-container-lowest border rounded-lg py-3 pl-12 pr-4 text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200 ${state.fieldErrors?.password
                   ? "border-error"
                   : "border-outline-variant"
                 }`}
@@ -132,9 +101,9 @@ export default function LoginForm({ onToggle }: Readonly<Props>) {
               defaultValue=""
             />
           </div>
-          {fieldErrors.password && (
+          {state.fieldErrors?.password && (
             <p className="font-body-sm text-body-sm text-error ml-1">
-              {fieldErrors.password}
+              {state.fieldErrors.password}
             </p>
           )}
         </div>

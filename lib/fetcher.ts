@@ -22,6 +22,7 @@ type FetcherResponse<T> = {
   data: T;
   status: number;
   ok: boolean;
+  headers: Headers;
 };
 
 class Fetcher {
@@ -101,7 +102,7 @@ class Fetcher {
       ? ((await processedResponse.json()) as TResponse)
       : ((await processedResponse.text()) as unknown as TResponse);
 
-    return { data, status: processedResponse.status, ok: processedResponse.ok };
+    return { data, status: processedResponse.status, ok: processedResponse.ok, headers: processedResponse.headers };
   }
 
   get<TResponse>(
