@@ -5,7 +5,9 @@ const protectedPaths = ["/findings", "/profile", "/opportunities"];
 
 export function proxy(request: NextRequest) {
   const token = request.cookies.get("access_token")?.value || request.cookies.get("_vercel_jwt")?.value;
+  const cookies = request.cookies;
   console.log("Token", token);
+  console.log("Cookies", cookies);
   const { pathname } = request.nextUrl;
 
   const isProtected = protectedPaths.some(
