@@ -13,7 +13,7 @@ export interface AuthSlice {
   logout: () => Promise<void>;
 }
 
-export const createAuthSlice: StateCreator<AuthSlice> = (set) => ({
+export const createAuthSlice: StateCreator<AuthSlice> = (set, get: any) => ({
   user: null,
   isAuthenticated: false,
 
@@ -22,6 +22,7 @@ export const createAuthSlice: StateCreator<AuthSlice> = (set) => ({
 
   logout: async () => {
     await authService.logout();
+    get().clearProfile?.();
     set({ user: null, isAuthenticated: false });
   },
 });

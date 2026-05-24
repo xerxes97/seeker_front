@@ -22,7 +22,7 @@ export const useStore = create<AppStore>()(
       }),
       onRehydrateStorage: () => (state) => {
         console.log(state)
-        if (state?.profile?.id) {
+        if (state?.profile?.id && state?.profile?.id !== "") {
           setTimeout(() => useStore.setState({ loading: false }), 500);
         } else {
           useStore.getState().fetchProfile();

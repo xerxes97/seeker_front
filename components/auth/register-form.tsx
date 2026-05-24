@@ -1,11 +1,9 @@
 "use client";
 
 import { useActionState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { register as registerAction, login, type LoginState } from "@/lib/actions/auth";
+import { register as registerAction, type LoginState } from "@/lib/actions/auth";
 import Alert from "@/components/common/alert";
 import Button from "@/components/common/button";
-import { authService } from "@/lib/services";
 
 type Props = {
   onToggle: () => void;
@@ -15,17 +13,12 @@ const initialState: LoginState = {};
 
 export default function RegisterForm({ onToggle }: Readonly<Props>) {
   const [state, formAction, pending] = useActionState(registerAction, initialState);
-  const router = useRouter();
 
   useEffect(() => {
     if (state.success) {
-      const email = (document.querySelector<HTMLInputElement>('input[name="email"]')?.value) ?? "";
-      const password = (document.querySelector<HTMLInputElement>('input[name="password"]')?.value) ?? "";
-      authService.login(email, password, true).then(() => {
-        router.push("/findings");
-      });
+      onToggle();
     }
-  }, [state.success, router]);
+  }, [state.success, onToggle]);
 
   return (
     <>

@@ -2,16 +2,14 @@ import IconButton from "@mui/material/IconButton";
 
 type Props = {
   name: string;
-  role: string;
+  role?: string;
   avatar: string;
-  statuses?: string[];
 };
 
 export default function ProfileHeader({
   name,
   role,
   avatar,
-  statuses,
 }: Readonly<Props>) {
   return (
     <section className="flex flex-col md:flex-row items-center mb-margin-desktop gap-stack-lg">
@@ -39,13 +37,15 @@ export default function ProfileHeader({
         </IconButton>
       </div>
 
-      <div className="text-center md:text-left flex-1">
+      <div className="text-center md:text-left flex-1 ml-4">
         <h2 className="font-headline-lg text-headline-lg text-on-surface">
           {name}
         </h2>
-        <p className="font-body-lg text-body-lg text-on-surface-variant">
-          {role}
-        </p>
+        {role && (
+          <p className="font-body-lg text-body-lg text-on-surface-variant">
+            {role}
+          </p>
+        )}
       </div>
     </section>
   );

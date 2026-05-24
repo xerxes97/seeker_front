@@ -3,6 +3,7 @@
 import { useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { login, type LoginState } from "@/lib/actions/auth";
+import { useStore } from "@/stores";
 import Alert from "@/components/common/alert";
 import Button from "@/components/common/button";
 
@@ -18,6 +19,7 @@ export default function LoginForm({ onToggle }: Readonly<Props>) {
 
   useEffect(() => {
     if (state.success) {
+      useStore.getState().fetchProfile();
       router.push("/findings");
     }
   }, [state.success, router]);
