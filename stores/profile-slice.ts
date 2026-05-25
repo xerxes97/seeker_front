@@ -5,15 +5,18 @@ import { profileService } from "@/lib/services";
 export interface ProfileSlice {
   profile: Profile;
   loading: boolean;
+  uploading: boolean;
   error: string | null;
   fetchProfile: () => Promise<void>;
   updateProfile: (data: Partial<Profile>) => Promise<void>;
+  uploadCv: (file: File) => Promise<boolean>;
   clearProfile: () => void;
 }
 
 export const createProfileSlice: StateCreator<ProfileSlice> = (set) => ({
   profile: DEFAULT_PROFILE,
   loading: true,
+  uploading: false,
   error: null,
 
   fetchProfile: async () => {
@@ -30,6 +33,14 @@ export const createProfileSlice: StateCreator<ProfileSlice> = (set) => ({
     if (profile) {
       set({ profile });
     }
+  },
+
+  uploadCv: async (file) => {
+    set({ uploading: true, error: null });
+    const ok = await profileService.uploadCv(file);
+    set({ uploading: false });
+    if (!ok) set({ error: "Failed to upload CV" });
+    return ok;
   },
 
   clearProfile: () => set({ profile: DEFAULT_PROFILE, error: null }),

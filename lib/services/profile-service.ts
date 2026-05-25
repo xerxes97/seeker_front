@@ -13,6 +13,22 @@ export class ProfileService {
     if (!res.ok) return null;
     return res.data;
   }
+
+  async uploadCv(file: File): Promise<boolean> {
+    const formData = new FormData();
+    formData.append("cv", file);
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL ?? ""}/user-profile/cv`,
+      {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+      }
+    );
+
+    return res.ok;
+  }
 }
 
 export const profileService = new ProfileService();
