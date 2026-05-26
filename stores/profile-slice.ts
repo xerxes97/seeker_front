@@ -9,11 +9,11 @@ export interface ProfileSlice {
   error: string | null;
   fetchProfile: () => Promise<void>;
   updateProfile: (data: Partial<Profile>) => Promise<void>;
-  uploadCv: (file: File) => Promise<boolean>;
+  uploadCv: (file: File) => Partial<Profile>;
   clearProfile: () => void;
 }
 
-export const createProfileSlice: StateCreator<ProfileSlice> = (set) => ({
+export const createProfileSlice: StateCreator<ProfileSlice> = (set, get) => ({
   profile: DEFAULT_PROFILE,
   loading: true,
   uploading: false,
@@ -36,11 +36,19 @@ export const createProfileSlice: StateCreator<ProfileSlice> = (set) => ({
   },
 
   uploadCv: async (file) => {
-    set({ uploading: true, error: null });
-    const ok = await profileService.uploadCv(file);
-    set({ uploading: false });
-    if (!ok) set({ error: "Failed to upload CV" });
-    return ok;
+    try {
+      set({ uploading: true, error: null });
+      const data = await profileService.uploadCv(file);
+      if (!data) {
+        set({ error: "Failed to upload CV" });
+        return null;
+      }
+      set({ uploading: false, profile: { ...get().profile, ...data } });
+      return data;
+    } catch (error) {
+      set({ uploading: false, error: "Failed to upload CV" });
+      return null;
+    }
   },
 
   clearProfile: () => set({ profile: DEFAULT_PROFILE, error: null }),

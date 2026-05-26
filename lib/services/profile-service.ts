@@ -14,20 +14,16 @@ export class ProfileService {
     return res.data;
   }
 
-  async uploadCv(file: File): Promise<boolean> {
+  async uploadCv(file: File): Promise<Partial<Profile> | null> {
     const formData = new FormData();
     formData.append("file", file);
 
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL ?? ""}/user-profile/cv`,
-      {
-        method: "POST",
-        credentials: "include",
-        body: formData,
-      }
+    const res = await api.post<any, Profile>(
+      `/user-profile/cv`,
+      formData
     );
 
-    return res.ok;
+    return res.ok ? res.data : null;
   }
 }
 

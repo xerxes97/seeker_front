@@ -51,13 +51,16 @@ class Fetcher {
   }
 
   private async buildHeaders(
-    extra?: Record<string, string>
+    extra?: Record<string, string>,
+    body?: unknown
   ): Promise<Record<string, string>> {
     const headers: Record<string, string> = {
-      "Content-Type": "application/json",
       Accept: "application/json",
       ...extra,
     };
+    if (!(body instanceof FormData)) {
+      headers["Content-Type"] = "application/json";
+    }
     return headers;
   }
 
@@ -73,7 +76,7 @@ class Fetcher {
     } = options;
 
     const url = this.buildUrl(path, params);
-    const headers = await this.buildHeaders(extraHeaders);
+    const headers = await this.buildHeaders(extraHeaders, body);
 
     let fetchInit: RequestInit = {
       method,
@@ -82,7 +85,7 @@ class Fetcher {
     };
 
     if (body && method !== "GET") {
-      fetchInit.body = JSON.stringify(body);
+      fetchInit.body = body instanceof FormData ? body : JSON.stringify(body);
     }
 
     for (const interceptor of this.config.requestInterceptors) {
