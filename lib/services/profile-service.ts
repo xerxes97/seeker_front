@@ -16,7 +16,7 @@ export class ProfileService {
 
   async uploadCv(file: File): Promise<boolean> {
     const formData = new FormData();
-    formData.append("cv", file);
+    formData.append("file", file);
 
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL ?? ""}/user-profile/cv`,

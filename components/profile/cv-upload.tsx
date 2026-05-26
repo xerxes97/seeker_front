@@ -3,6 +3,7 @@
 import { useRef, useState, type DragEvent, type ChangeEvent } from "react";
 import SectionCard from "@/components/common/section-card";
 import IconButton from "@mui/material/IconButton";
+import Button from "@/components/common/button";
 
 const ACCEPTED_TYPES = [
   "application/pdf",
@@ -14,10 +15,12 @@ const ACCEPTED_EXTENSIONS = ".pdf,.doc,.docx";
 
 type Props = {
   onFileSelect?: (file: File | null) => void;
+  onUpload: (file: File) => void;
+  uploading?: boolean;
   className?: string;
 };
 
-const CvUpload = ({ onFileSelect, className = "" }: Props) => {
+const CvUpload = ({ onFileSelect, onUpload, uploading = false, className = "" }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
   const [dragging, setDragging] = useState(false);
@@ -99,10 +102,27 @@ const CvUpload = ({ onFileSelect, className = "" }: Props) => {
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center w-full h-full py-8">
-          <div className="h-16 w-16 bg-surface-container-high rounded-full flex items-center justify-center mb-stack-md">
+          <div className="relative h-16 w-16 bg-surface-container-high rounded-full flex items-center justify-center mb-stack-md">
             <span className="material-symbols-outlined text-primary text-[32px]">
               description
             </span>
+            <IconButton
+              size="small"
+              sx={{
+                color: "var(--color-error, #ffb4ab)",
+                position: "absolute",
+                top: -4,
+                right: -4,
+                padding: "4px",
+                backgroundColor: "transparent",
+                "&:hover": { backgroundColor: "rgba(255, 180, 171, 0.12)" },
+              }}
+              onClick={handleRemove}
+            >
+              <span className="material-symbols-outlined text-[16px]">
+                close
+              </span>
+            </IconButton>
           </div>
           <h3 className="font-headline-md text-headline-md mb-2">
             {file.name}
@@ -110,19 +130,14 @@ const CvUpload = ({ onFileSelect, className = "" }: Props) => {
           <p className="font-body-md text-body-md text-on-surface-variant mb-stack-lg">
             {(file.size / 1024 / 1024).toFixed(2)} MB
           </p>
-          <div className="flex items-center gap-3">
-            <span className="font-label-md text-label-md">
-              {file.name}
-            </span>
-            <IconButton
-              size="small"
-              sx={{ color: "var(--color-error, #ffb4ab)" }}
-              onClick={handleRemove}
+          <div className="flex items-center gap-3 mt-2">
+            <Button
+              variant="contained"
+              loading={uploading}
+              onClick={() => onUpload?.(file)}
             >
-              <span className="material-symbols-outlined text-[18px]">
-                close
-              </span>
-            </IconButton>
+              Cargar documento
+            </Button>
           </div>
         </div>
       )}
