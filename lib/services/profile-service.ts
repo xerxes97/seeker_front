@@ -13,6 +13,18 @@ export class ProfileService {
     if (!res.ok) return null;
     return res.data;
   }
+
+  async uploadCv(file: File): Promise<Partial<Profile> | null> {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const res = await api.post<any, Profile>(
+      `/user-profile/cv`,
+      formData
+    );
+
+    return res.ok ? res.data : null;
+  }
 }
 
 export const profileService = new ProfileService();
